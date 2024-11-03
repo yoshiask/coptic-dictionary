@@ -1,3 +1,4 @@
+#!/bin/python3
 # Updates dictionary DB with all information from a fresh scriptorium release
 import os, sys
 from argparse import ArgumentParser

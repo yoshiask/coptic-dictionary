@@ -555,8 +555,8 @@ def dictionary_xml_to_database(xml_path, pub_corpora=None):
 		cur = con.cursor()
 
 		cur.execute("DROP TABLE IF EXISTS entries")
-		cur.execute("CREATE TABLE entries(Id INT, Super_Ref INT, Name TEXT, POS TEXT, De TEXT, En TEXT, Fr TEXT, " +
-					"Etym TEXT, Ascii TEXT, Search TEXT, oRef TEXT, grkId TEXT, entities TEXT, xml_id TEXT UNIQUE, lemma_form_id TEXT)")
+		cur.execute("CREATE VIRTUAL TABLE entries USING FTS5(Id, Super_Ref, Name, POS, De, En, Fr, " +
+					"Etym, Ascii, Search, oRef, grkId, entities, xml_id, lemma_form_id)")
 
 		super_id = 1
 		entry_id = 1
@@ -596,14 +596,20 @@ def dictionary_xml_to_database(xml_path, pub_corpora=None):
 					super_id += 1
 					entry_id += len(rows)
 
-		# Handle network graphs
-		cur.execute("DROP TABLE IF EXISTS networks")
-		cur.execute("CREATE TABLE networks(pos TEXT, word TEXT, phrase TEXT, freq INTEGER)")
+		try:
+			# Handle network graphs
+			cur.execute("DROP TABLE IF EXISTS networks")
+			cur.execute("CREATE TABLE networks(pos TEXT, word TEXT, phrase TEXT, freq INTEGER)")
 
-		data = io.open(utils_dir + "phrase_freqs.tab", encoding="utf8").read().strip().split("\n")
-		data = [row.split("\t") for row in data]
-		data = [row[:-1] + [int(row[-1])] for row in data]
-		cur.executemany("INSERT INTO networks VALUES(?, ?, ?, ?)", data)
+			data = io.open(utils_dir + "phrase_freqs.tab", encoding="utf8").read().strip().split("\n")
+			data = [row.split("\t") for row in data]
+			print(data)
+			data = [row[:-1] + [int(row[-1])] for row in data]
+			cur.executemany("INSERT INTO networks VALUES(?, ?, ?, ?)", data)
+		except FileNotFoundError:
+			print(f"Skipping network graphs because {utils_dir}phrase_freqs.tab does not exist.")
+		except Exception:
+			print("Error while dealing with network graphs. Skipping.")
 
 if __name__ == "__main__":
 	parser = ArgumentParser()

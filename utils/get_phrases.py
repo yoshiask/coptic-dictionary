@@ -2,6 +2,7 @@ from collections import defaultdict
 from glob import glob
 from depedit import DepEdit
 import io
+import os
 
 white_list = ["N","V","VSTAT","VIMP","PREP"]
 
