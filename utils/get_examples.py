@@ -6,8 +6,8 @@ import sqlite3 as lite
 from glob import glob
 from random import shuffle, seed
 
-pub_corpora = ""  # Path to clone of CopticScriptorium/Corpora
-nlp_data_dir = ""   # Path to data dir of CopticScriptorium/Coptic-NLP ""
+pub_corpora = "/mnt/c/Users/jjask/source/repos/CopticScriptorium/corpora"  # Path to clone of CopticScriptorium/Corpora
+nlp_data_dir = "/mnt/c/Users/jjask/source/repos/KELLIA/Coptic-NLP/data"   # Path to data dir of CopticScriptorium/Coptic-NLP ""
 utils_dir = os.path.dirname(os.path.realpath(__file__)) + os.sep
 
 # Manually selected examples

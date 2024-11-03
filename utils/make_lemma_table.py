@@ -20,8 +20,8 @@ from glob import glob
 from zipfile import ZipFile
 
 
-PUB_CORPORA = ""  # Path to clone of repo CopticScriptorium/Corpora
-NLP_DATA = ""  # Path to data folder of repo CopticScriptorium/Coptic-NLP
+PUB_CORPORA = "/mnt/c/Users/jjask/source/repos/KELLIA/corpora"  # Path to clone of repo CopticScriptorium/Corpora
+NLP_DATA = "/mnt/c/Users/jjask/source/repos/KELLIA/Coptic-NLP/data"  # Path to data folder of repo CopticScriptorium/Coptic-NLP
 
 if not PUB_CORPORA.endswith(os.sep):
     PUB_CORPORA += os.sep

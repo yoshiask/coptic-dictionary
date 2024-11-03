@@ -4,7 +4,7 @@ from collections import defaultdict
 from zipfile import ZipFile
 from copy import deepcopy
 
-pub_corpora = ""  # Path to clone of CopticScriptorium/Corpora
+pub_corpora = "/mnt/c/Users/jjask/source/repos/KELLIA/corpora"  # Path to clone of CopticScriptorium/Corpora
 if not pub_corpora.endswith(os.sep):
     pub_corpora += os.sep
 
