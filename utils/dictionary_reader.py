@@ -134,6 +134,7 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 			if is_lemma:
 				lemma = first_orth
 	if lemma is None:
+		print(entry_xml_id)
 		logging.error("No lemma type for entry of " + orths[0].text)
 
 	first = []
