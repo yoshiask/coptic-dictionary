@@ -18,14 +18,14 @@ def check_chars(word):
 	"""
 	was used to check for inconsistencies/unexpected characters in the xml; not currently called anywhere
 	"""
-	mapping = {u'ⲁ': 'A', u'ⲃ': 'B', u'ⲅ': 'C', u'ⲇ': 'D', u'ⲉ': 'E', u'ⲍ': 'F', u'ⲏ': 'G', u'ⲑ': 'H', u'ⲓ': 'I', u'Ⲓ': 'I',
-				   u'ⲕ': 'J', u'ⲹ': 'J', u'ⲗ': 'K', u'ⲙ': 'L', u'ⲛ': 'M', u'ⲝ': 'N', u'ⲟ': 'O', u'ⲡ': 'P', u'ⲣ': 'Q', u'ⲥ': 'R',
-				   u'ⲧ': 'S', u'ⲩ': 'T', u'ⲫ': 'U', u'ⲭ': 'V', u'ⲯ': 'W', u'ⲱ': 'X', u'ϣ': 'Y', u'ϥ': 'Z', u'ⳉ': 'a',
-				   u'ϧ': 'b', u'ϩ': 'c', u'ϫ': 'd', u'ϭ': 'e', u'ϯ': 'SI'}
-	expected_chars = u'()[]?,.*/ -–	 ︤̅ˉ̣︦̄̈ ⸗= o'
+	mapping = {'ⲁ': 'A', 'ⲃ': 'B', 'ⲅ': 'C', 'ⲇ': 'D', 'ⲉ': 'E', 'ⲍ': 'F', 'ⲏ': 'G', 'ⲑ': 'H', 'ⲓ': 'I', 'Ⲓ': 'I',
+				   'ⲕ': 'J', 'ⲹ': 'J', 'ⲗ': 'K', 'ⲙ': 'L', 'ⲛ': 'M', 'ⲝ': 'N', 'ⲟ': 'O', 'ⲡ': 'P', 'ⲣ': 'Q', 'ⲥ': 'R',
+				   'ⲧ': 'S', 'ⲩ': 'T', 'ⲫ': 'U', 'ⲭ': 'V', 'ⲯ': 'W', 'ⲱ': 'X', 'ϣ': 'Y', 'ϥ': 'Z', 'ⳉ': 'a',
+				   'ϧ': 'b', 'ϩ': 'c', 'ϫ': 'd', 'ϭ': 'e', 'ϯ': 'SI'}
+	expected_chars = '()[]?,.*/ -–	 ︤̅ˉ̣︦̄̈ ⸗= o'
 	for char in word:
 		if char not in mapping and char not in expected_chars:
-			print(word + "\t" + char)
+			print((word + "\t" + char))
 
 
 def order_forms(formlist):
@@ -192,7 +192,7 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 			if all_geos.text is not None:
 				geos = re.sub(r'[\(\)]', r'', all_geos.text)
 				geos = re.sub(r'Ak', r'K', geos).split(' ')
-				geos = filter(lambda g: len(g) == 1, geos)
+				geos = [g for g in geos if len(g) == 1]
 			else: geos = []
 		else:
 			geos = []
@@ -219,8 +219,8 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 			else:
 				oref_text = orth_text
 
-			search_text = re.sub(u'[^ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥⳉϧϩϫϭϯ ]', u'', orth_text)
-			oref_text = re.sub(u'[^ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥⳉϧϩϫϭϯ ]', u'', oref_text)
+			search_text = re.sub('[^ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥⳉϧϩϫϭϯ ]', '', orth_text)
+			oref_text = re.sub('[^ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥⳉϧϩϫϭϯ ]', '', oref_text)
 
 			for geo in geos:
 				orthstring += orth_text + "~" + geo + "\n"
@@ -241,10 +241,10 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 	if first_orth_re is not None:
 		first_orth = first_orth_re.group(1)
 		ascii_orth = ''
-		mapping = {u'ⲁ': 'A', u'ⲃ': 'B', u'ⲅ': 'C', u'ⲇ': 'D', u'ⲉ': 'E', u'ⲍ': 'F', u'ⲏ': 'G', u'ⲑ': 'H', u'ⲓ': 'I',
-				   u'ⲕ': 'J', u'ⲗ': 'K', u'ⲙ': 'L', u'ⲛ': 'M', u'ⲝ': 'N', u'ⲟ': 'O', u'ⲡ': 'P', u'ⲣ': 'Q', u'ⲥ': 'R',
-				   u'ⲧ': 'S', u'ⲩ': 'T', u'ⲫ': 'U', u'ⲭ': 'V', u'ⲯ': 'W', u'ⲱ': 'X', u'ϣ': 'Y', u'ϥ': 'Z', u'ⳉ': 'a',
-				   u'ϧ': 'b', u'ϩ': 'c', u'ϫ': 'd', u'ϭ': 'e', u'ϯ': 'SI', u' ': ' '}
+		mapping = {'ⲁ': 'A', 'ⲃ': 'B', 'ⲅ': 'C', 'ⲇ': 'D', 'ⲉ': 'E', 'ⲍ': 'F', 'ⲏ': 'G', 'ⲑ': 'H', 'ⲓ': 'I',
+				   'ⲕ': 'J', 'ⲗ': 'K', 'ⲙ': 'L', 'ⲛ': 'M', 'ⲝ': 'N', 'ⲟ': 'O', 'ⲡ': 'P', 'ⲣ': 'Q', 'ⲥ': 'R',
+				   'ⲧ': 'S', 'ⲩ': 'T', 'ⲫ': 'U', 'ⲭ': 'V', 'ⲯ': 'W', 'ⲱ': 'X', 'ϣ': 'Y', 'ϥ': 'Z', 'ⳉ': 'a',
+				   'ϧ': 'b', 'ϩ': 'c', 'ϫ': 'd', 'ϭ': 'e', 'ϯ': 'SI', ' ': ' '}
 		for char in first_orth:
 			if char in mapping:
 				ascii_orth += mapping[char]
@@ -341,7 +341,7 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 	fr = re.sub(r'\s+', r' ', fr).strip()
 
 	# POS -- a single Scriptorium POS tag for each entry
-	if oref_string == u"ⲟⲩⲛ":
+	if oref_string == "ⲟⲩⲛ":
 		d=3
 	pos_list = []
 	for gramgrp in entry.iter("{http://www.tei-c.org/ns/1.0}gramGrp"):
@@ -359,7 +359,7 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 		if new_pos not in pos_list:
 			pos_list.append(new_pos)
 	if len(list(pos_list)) > 1:
-		pos_list = filter(lambda p: p not in ['NULL', 'NONE', '?'], pos_list)
+		pos_list = [p for p in pos_list if p not in ['NULL', 'NONE', '?']]
 		pos_list = list(pos_list)
 	if len(pos_list) == 0:
 		pos_list.append('NULL')
@@ -421,7 +421,7 @@ def process_entry(id, super_id, entry,entry_xml_id, entity_types):
 	xrs = entry.findall("{http://www.tei-c.org/ns/1.0}xr")
 	for xr in xrs:
 		for ref in xr:
-			ref_target = re.sub(u'[^ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥⳉϧϩϫϭϯ ]', u'', ref.attrib['target']).strip()
+			ref_target = re.sub('[^ⲁⲃⲅⲇⲉⲍⲏⲑⲓⲕⲗⲙⲛⲝⲟⲡⲣⲥⲧⲩⲫⲭⲯⲱϣϥⳉϧϩϫϭϯ ]', '', ref.attrib['target']).strip()
 			etym_string += xr.attrib['type'] + ". " + "#" + ref_target + "# " + ref.text + " "
 
 	ents = ""
@@ -470,73 +470,73 @@ def pos_map(pos, subc, orthstring):
 	:return: string
 	"""
 	pos = pos.replace('?', '')
-	if pos == u"Subst." or pos == u"Adj." or pos == u"Nominalpräfix" or pos == u"Adjektivpräfix" \
-			or pos == u"Kompositum":
+	if pos == "Subst." or pos == "Adj." or pos == "Nominalpräfix" or pos == "Adjektivpräfix" \
+			or pos == "Kompositum":
 		return 'N'
-	elif u"Ausdruck der Nichtexistenz" in subc or u"Ausdruck des Nicht-Habens" in subc:
+	elif "Ausdruck der Nichtexistenz" in subc or "Ausdruck des Nicht-Habens" in subc:
 		return 'EXIST'
-	elif pos == u"Adv.":
+	elif pos == "Adv.":
 		return 'ADV'
-	elif pos == u"Vb." or pos == u"unpersönlicher Ausdruck":
-		if subc == u"Qualitativ":
+	elif pos == "Vb." or pos == "unpersönlicher Ausdruck":
+		if subc == "Qualitativ":
 			return 'VSTAT'
-		elif subc == u"Suffixkonjugation":
+		elif subc == "Suffixkonjugation":
 			return 'VBD'
-		elif subc == u"Imperativ":
+		elif subc == "Imperativ":
 			return 'VIMP'
-		elif u"ⲟⲩⲛ-" in orthstring or u"ⲟⲩⲛⲧⲉ-" in orthstring:
+		elif "ⲟⲩⲛ-" in orthstring or "ⲟⲩⲛⲧⲉ-" in orthstring:
 			return "EXIST"
 		else:
 			return 'V'
-	elif pos == u"Präp.":
+	elif pos == "Präp.":
 		return 'PREP'
-	elif pos == u"Zahlzeichen" or pos == u"Zahlwort" or pos == u"Präfix der Ordinalzahlen":
+	elif pos == "Zahlzeichen" or pos == "Zahlwort" or pos == "Präfix der Ordinalzahlen":
 		return 'NUM'
-	elif pos == u"Partikel" or pos == u"Interjektion" or pos == u"Partikel, enklitisch":
+	elif pos == "Partikel" or pos == "Interjektion" or pos == "Partikel, enklitisch":
 		return 'PTC'
-	elif pos == u"Selbst. Pers. Pron." or pos == u"Suffixpronomen" or pos == u"Präfixpronomen (Präsens I)":
+	elif pos == "Selbst. Pers. Pron." or pos == "Suffixpronomen" or pos == "Präfixpronomen (Präsens I)":
 		return 'PPER'
-	elif pos == u"Konj.":
+	elif pos == "Konj.":
 		return 'CONJ'
-	elif pos == u"Dem. Pron.":
+	elif pos == "Dem. Pron.":
 		return "PDEM"
-	elif pos == u"bestimmter Artikel" or pos == u"unbestimmter Artikel":
+	elif pos == "bestimmter Artikel" or pos == "unbestimmter Artikel":
 		return 'ART'
-	elif pos == u"Possessivartikel" or pos == u"Possessivpräfix":
+	elif pos == "Possessivartikel" or pos == "Possessivpräfix":
 		return 'PPOS'
-	elif pos == u"Poss. Pron.":
+	elif pos == "Poss. Pron.":
 		return 'PPERO'
-	elif pos == u"Interr. Pron.":
+	elif pos == "Interr. Pron.":
 		return 'PINT'
-	elif pos == u"Verbalpräfix":
-		if subc == u"Imperativpräfix ⲁ-" or subc == u"Negierter Imperativ ⲙⲡⲣ-":
+	elif pos == "Verbalpräfix":
+		if subc == "Imperativpräfix ⲁ-" or subc == "Negierter Imperativ ⲙⲡⲣ-":
 			return 'NEG'
-		if subc == u"im negativen Bedingungssatz" or subc == u"Perfekt II ⲉⲛⲧⲁ-":
+		if subc == "im negativen Bedingungssatz" or subc == "Perfekt II ⲉⲛⲧⲁ-":
 			return 'NONE'
 		else:
 			return 'A'
-	elif pos == u"Pron.":
+	elif pos == "Pron.":
 		if subc == "None":
 			return 'PPER'
-		elif subc == u"Indefinitpronomen" or subc == u"Fragepronomen":
+		elif subc == "Indefinitpronomen" or subc == "Fragepronomen":
 			return 'PINT'
-		elif subc == u"Reflexivpronomen":
+		elif subc == "Reflexivpronomen":
 			return 'PREP'
-	elif pos == u"Satzkonverter":
+	elif pos == "Satzkonverter":
 		return 'C'
-	elif pos == u"Präfix":
-		if u"ⲧⲁ-" in orthstring:
+	elif pos == "Präfix":
+		if "ⲧⲁ-" in orthstring:
 			return "PPOS"
-		elif u"ⲧⲃⲁⲓ-" in orthstring:
+		elif "ⲧⲃⲁⲓ-" in orthstring:
 			return "N"
-		elif u"ⲧⲣⲉ-" in orthstring:
+		elif "ⲧⲣⲉ-" in orthstring:
 			return "A"
-	elif pos == u"None" or pos == u"?":
-		if subc == u"None":
+	elif pos == "None" or pos == "?":
+		if subc == "None":
 			return 'NULL'
-		if subc == u"Qualitativ":
+		if subc == "Qualitativ":
 			return 'VSTAT'
-	elif u"ϭⲁⲛⲛⲁⲥ" in orthstring:
+	elif "ϭⲁⲛⲛⲁⲥ" in orthstring:
 		return "NULL"
 
 	return "?"

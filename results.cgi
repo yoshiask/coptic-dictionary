@@ -11,7 +11,7 @@ from operator import itemgetter
 from math import ceil
 cgitb.enable()
 
-print "Content-type: text/html\n"
+print("Content-type: text/html\n")
 
 	
 def first_orth(orthstring):

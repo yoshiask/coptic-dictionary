@@ -58,7 +58,7 @@ def separate_coptic(search_text):
 	coptic_words = []
 	non_coptic_words = []
 	for word in words:
-		coptic = ("COPTIC" in unicodedata.name(chr) for chr in unicode(word.decode("utf8")))
+		coptic = ("COPTIC" in unicodedata.name(chr) for chr in str(word.decode("utf8")))
 		if any(coptic):
 			coptic_words.append(word)
 		else:
@@ -68,9 +68,9 @@ def separate_coptic(search_text):
 
 
 def strip_hyphens(text):
-	text = text.replace('-', '').replace(ur"\u0304","").replace(ur"\ufe26","").replace(ur"\ufe24","").replace(ur"\ufe25","")
-	text = text.replace(ur'\u2013', '')
-	text = text.replace(ur"\u2E17","")
+	text = text.replace('-', '').replace(r"\u0304","").replace(r"\ufe26","").replace(r"\ufe24","").replace(r"\ufe25","")
+	text = text.replace(r'\u2013', '')
+	text = text.replace(r"\u2E17","")
 	return text
 
 
@@ -173,7 +173,7 @@ def link_greek(etym):
 		if not all([c in updated_map for c in chars]):
 			return etym
 		else:
-			mapped = "".join((list(map(lambda x: updated_map.get(x, x), chars))))
+			mapped = "".join((list([updated_map.get(x, x) for x in chars])))
 
 			link = ' <a title="Look up in Perseus" href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup='+mapped+'&lang=greek">'+greek + '&nbsp;<img src="img/perseus.png" style="border: 1px solid black;"/></a> '
 			linked = re.sub(r'(cf\. Gr\.[^<>]*</span>)[^<>]+(<i>)',r'\1'+link+r'\2',etym)

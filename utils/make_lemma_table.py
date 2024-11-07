@@ -438,7 +438,7 @@ def main(use_cache=False, url="https://annis.copticscriptorium.org/", lemma_list
         else:
             lemma_freq, lemma_rank = [0,0]
         if outmode == "text":
-            print(norm + "\t" + pos + "\t" + lemma + "\t" + str(norm_count) + "\t" + str("%.2f" % round(norm_freq,2)) + "\t" + str(norm_rank)+ "\t" + str(lemma_count) + "\t" + str("%.2f" % round(lemma_freq,2)) + "\t" + str(lemma_rank))
+            print((norm + "\t" + pos + "\t" + lemma + "\t" + str(norm_count) + "\t" + str("%.2f" % round(norm_freq,2)) + "\t" + str(norm_rank)+ "\t" + str(lemma_count) + "\t" + str("%.2f" % round(lemma_freq,2)) + "\t" + str(lemma_rank)))
         else:
             rows.append([norm, pos, lemma, str(norm_count), str("%.2f" % round(norm_freq,2)), str(norm_rank), str(lemma_count), str("%.2f" % round(lemma_freq,2)), str(lemma_rank)])
 
@@ -451,7 +451,7 @@ def main(use_cache=False, url="https://annis.copticscriptorium.org/", lemma_list
                     # Valid pair
                     assoc = get_assoc(norm_counts[norm],norm_counts[collocate],collocate_freqs[norm][collocate],cooc_pool)
                     if outmode == "text":
-                        print("\t".join([norm, collocate, str(collocate_freqs[norm][collocate]), str(assoc)]))
+                        print(("\t".join([norm, collocate, str(collocate_freqs[norm][collocate]), str(assoc)])))
                     else:
                         out_colloc.append([norm, collocate, collocate_freqs[norm][collocate], assoc])
 

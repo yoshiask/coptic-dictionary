@@ -115,5 +115,5 @@ Association
 </p>
 </text>"""
 	test_sgml = io.open("test_reorder.sgml",encoding="utf8").read()
-	print(reorder(test_sgml))
+	print((reorder(test_sgml)))
 

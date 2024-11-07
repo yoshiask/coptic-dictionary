@@ -6,7 +6,7 @@ import sqlite3 as lite
 from helper import wrap
 cgitb.enable()
 
-print "Content-type: text/html\n"
+print("Content-type: text/html\n")
 
 page = """
 <script src="js/jquery-1.7.2.min.js"></script>
@@ -70,6 +70,6 @@ if __name__ == "__main__":
     else:
         wrapped = wrapped.replace("TLA form no. **TLA**:","")
 
-    print wrapped.encode("utf8")
+    print(wrapped.encode("utf8"))
 
 
