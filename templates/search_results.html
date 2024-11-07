@@ -1,0 +1,27 @@
+<h1>Search Results</h1>
+<h2>Entries</h2>
+<ul>
+    {% for entry in entries %}
+        <li>
+            <div class="entry">
+                <div class="orth_entry">{{ entry[2] }}</div>
+                <div class="dialect">{{ entry[3] }}</div>
+                <div class="tla_orth_id">{{ entry[12] }}</div>
+                <div class="morphology">{{ entry[4] }}</div>
+                <div class="annis_link">
+                    <a href="https://annis.copticscriptorium.org/annis/scriptorium#_q=bm9ybT0i4rKJ4rKj4rKB4rKnIg==&_c=c2hlbm91dGUuYTIyLGpvaGFubmVzLmNhbm9ucyxzaGVub3V0ZS5hYnJhaGFtLHBzZXVkby5iYXNpbCxzaGVub3V0ZS5kaXJ0LHNhaGlkaWMub3Qsc2hlbm91dGUubmlnaHQscGlzdGlzLnNvcGhpYSxzaGVub3V0ZS50cnVlLHBzZXVkby50aW1vdGh5LHNoZW5vdXRlLnRodW5kZXJlZCxwc2V1ZG8uY2hyeXNvc3RvbSxwc2V1ZG8udGhlb3BoaWx1cyxkb2MucGFweXJpLHBhY2hvbWl1cy5pbnN0cnVjdGlvbnMsc2hlbm91dGUuaG91c2Usc2hlbm91dGUudW5rbm93bjVfMSxzaGVub3V0ZS5saXN0ZW4sbGlmZS5jeXJ1cyxzaGVub3V0ZS5lcnJzLG1hZ2ljYWwucGFweXJpLHBzZXVkby5jZWxlc3RpbnVzLHNoZW5vdXRlLnRob3NlLHNhaGlkaWNhLm50LHNoZW5vdXRlLmNydXNoZWQsbWFydHlyZG9tLnZpY3RvcixiZXNhLmxldHRlcnMsbGlmZS5qb2huLmthbHliaXRlcyxzaGVub3V0ZS51bmNlcnRhaW4ueHIscHNldWRvLmF0aGFuYXNpdXMuZGlzY291cnNlcyxkb3JtaXRpb24uam9obixsaWZlLnBoaWIscHNldWRvLmVwaHJlbSxsaWZlLm9ubm9waHJpdXMsYXBvcGh0aGVnbWF0YS5wYXRydW0sc2hlbm91dGUuc2Vla3MsbGlmZS5wYXVsLnRhbW1hLG15c3Rlcmllcy5qb2huLHNhaGlkaWMucnV0aCxzYWhpZGljYS5tYXJrLHNoZW5vdXRlLnBsYWNlLHNoZW5vdXRlLmVhZ2VybmVzcyxsaWZlLmFwaG91LHNoZW5vdXRlLndpdG5lc3MsbGlmZS5ldXN0YXRoaXVzLnRoZW9waXN0ZSxwcm9jbHVzLmhvbWlsaWVzLGpvaG4uY29uc3RhbnRpbm9wbGUsc2hlbm91dGUuY29uc2lkZXJpbmcsc2FoaWRpY2EuMWNvcmludGhpYW5zLHNoZW5vdXRlLnByaW5jZSxzaGVub3V0ZS5mb3gscHNldWRvLmZsYXZpYW51cyxsaWZlLmxvbmdpbnVzLmx1Y2l1cyxsaWZlLnBpc2VudGl1cyxhY3RzLnBpbGF0ZSxib29rLmJhcnRob2xvbWV3LGhlbGlhcyxsYW1lbnQubWFyeSxtZXJjdXJpdXMsdGhlb2Rvc2l1cy5hbGV4YW5kcmlh&_bt=bm9ybV9ncm91cA&o=random" target="_new">
+                        <img src="{{ url_for('static', filename='img/scriptorium.png') }}" class="scriptorium_logo" title="Search in Coptic Scriptorium">
+                    </a>
+                </div>
+            </div>
+        </li>
+    {% endfor %}
+</ul>
+<h2>Related Entries</h2>
+<ul>
+    {% for related_entry in related_entries %}
+        <li>{{ related_entry }}</li>
+    {% endfor %}
+</ul>
+{% include 'network_thumb.html' %}
+</div>

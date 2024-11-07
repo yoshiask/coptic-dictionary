@@ -1,19 +1,4 @@
-#!/usr/bin/python3
-# -*- coding: utf-8 -*-
-
-from html import escape
-import sqlite3 as lite
-import re
-import cgi, cgitb
-import os
-from helper import wrap
-cgitb.enable()
-
-print("Content-type: text/html\n")
-        
-if __name__ == "__main__":
-	search_page = """
-    <form id="search" action="results.cgi" method="GET" accept-charset="UTF-8">
+    <form id="search" action="results" method="GET" accept-charset="UTF-8">
 	<table>
 	<tr>
 	<td>
@@ -74,13 +59,3 @@ if __name__ == "__main__":
 		</td></tr></table>
         <input type="submit" value="Search" class="search_button" id="search_submit">
     </form>
-"""
-
-	wrapped = wrap(search_page)
-	kbd_include = """
-	<script type="text/javascript" src="js/keyboard.js" charset="UTF-8"></script>
-	<link rel="stylesheet" type="text/css" href="css/keyboard.css?version=2">
-	"""
-	wrapped = wrapped.replace("<head>\n","<head>"+kbd_include)
-	print(wrapped)
-

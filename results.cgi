@@ -11,8 +11,20 @@ from operator import itemgetter
 from math import ceil
 cgitb.enable()
 
+def get_con():
+    return lite.connect('alpha_kyima_rc1.db')
+
 def regexp(expr, item):
-	return re.search(expr.lower(), item.lower(), flags=re.UNICODE) is not None
+    return re.search(expr.lower(), item.lower(), flags=re.UNICODE) is not None
+
+def check_tla_exists(tla_search):
+    con = get_con()
+    con.create_function("REGEXP", 2, regexp)
+    with con:
+        cur = con.cursor()
+        cur.execute("select xml_id from entries where xml_id=?", (tla_search,))
+        rows = cur.fetchall()
+        return len(rows) > 0
 
 print("Content-type: text/html\n")
 
@@ -74,7 +86,7 @@ def retrieve_related(word):
 	parameters = ['%' + word + '%']
 	sql_command += " ORDER BY ascii"
 		
-	con = lite.connect('alpha_kyima_rc1.db')
+	con = get_con()
 
 	con.create_function("REGEXP", 2, regexp)
 	
@@ -86,12 +98,7 @@ def retrieve_related(word):
 		tablestring = '<div class="content">\n' + "Entries related to '" + word + "'<br/>"
 		if len(rows) == 1:
 			row = rows[0]
-			#entry_url = "entry.cgi?entry=" + str(row[0]) + "&super=" + str(row[1])
-			#return '<meta http-equiv="refresh" content="0; URL="' + entry_url + '" />'
-			#return '<script>window.location = "' + entry_url + '";</script>'
-# 		elif len(rows) > 100:
-# 			tablestring += 'Search had ' + str(len(rows)) + ' results - showing first 100'
-# 			rows = rows[:100]
+			entry_url = "entry.cgi?tla=" + str(row[-2])
 		elif len(rows) == 0 and len(word) > 0:  # no matches found
 			tablestring += str(len(rows)) + ' results for <span class="anti">' + word + "</span>\n"
 			if lemma_exists(word):
@@ -237,7 +244,7 @@ def retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, 
 	sql_command += " AND ".join(constraints)
 	sql_command += " ORDER BY ascii"
 
-	con = lite.connect('alpha_kyima_rc1.db')
+	con = get_con()
 
 	con.create_function("REGEXP", 2, regexp)
 	with con:
@@ -384,7 +391,7 @@ if __name__ == "__main__":
 		if m is not None:
 			tla_search = m.group(1)
 			# Check that this TLA ID exists
-			con = lite.connect('alpha_kyima_rc1.db')
+			con = get_con()
 			with con:
 				cur = con.cursor()
 				cur.execute("select xml_id from entries where xml_id=?", (tla_search,))
@@ -397,7 +404,7 @@ if __name__ == "__main__":
 """
 			tla_search = ".*" + m.group(1) + "([^0-9].*|$)"
 			# Check that this TLA ID exists
-			con = lite.connect('alpha_kyima_rc1.db')
+			con = get_con()
 			with con:
 				con.create_function("REGEXP", 2, regexp)
 				cur = con.cursor()

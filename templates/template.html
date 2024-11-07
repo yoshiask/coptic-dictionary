@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+    {%include "header.html"%}
+<body>
+    {% include 'nav.html' %}
+    <div class="container">
+    {% if static %}
+        {% include static ~ ".html" %}
+    {% endif %}
+    {% if entries %}
+        {% include 'search_results.html' %}
+    {% endif %}
+    {% include 'footer.html' %}
+    </div>
+</body>
+</html>

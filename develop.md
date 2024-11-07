@@ -7,4 +7,4 @@
 5. Probably stop using regexp to parse XML.
 6. Modernize libraries etc.
 
-python3 -m http.server --bind localhost --cgi 8000
+python3 app.py
