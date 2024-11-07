@@ -4,33 +4,37 @@
 import sqlite3 as lite
 import re
 import cgi, cgitb
-import os, platform
-import html
 from html import escape
 from helper import wrap, lemma_exists, get_lemmas_for_word
-from helper import separate_coptic, strip_hyphens
+from helper import separate_coptic
 from operator import itemgetter
 from math import ceil
 cgitb.enable()
 
+def regexp(expr, item):
+	return re.search(expr.lower(), item.lower(), flags=re.UNICODE) is not None
+
 print("Content-type: text/html\n")
 
 	
+def regexp(expr, item):
+	return re.search(expr.lower(), item.lower()) is not None
+
 def first_orth(orthstring):
-	first_orth = re.search(r'\n(.*?)~', orthstring)
-	if first_orth is not None:
-		return first_orth.group(1)
+	match = re.search(r'\n(.*?)~', orthstring)
+	if match is not None:
+		return match.group(1)
 	else:
 		return "NONE"
 
 def second_orth(orthstring):
-	first_search = re.search(r'\n(.*?)~', orthstring)
-	if first_search is not None:
-		first = first_search.group(1)
+	first_match = re.search(r'\n(.*?)~', orthstring)
+	if first_match is not None:
+		first = first_match.group(1)
 	else:
 		first = ""
 
-	second_orth = re.search(r'\n(.*?)[^\n]*\n(.*?)~', orthstring)
+	second_match = re.search(r'\n(.*?)[^\n]*\n(.*?)~', orthstring)
 	sub_entries = re.findall(r'\n(.*?)~', orthstring)
 	distinct_entries = set([])
 	for entry in sub_entries:
@@ -39,9 +43,9 @@ def second_orth(orthstring):
 	count_sub_entries = len(distinct_entries)
 	dots = ", ..." if count_sub_entries > 2 else ""
 
-	if second_orth is not None:
-		if second_orth.group(2) != first:
-			return second_orth.group(2) + dots
+	if second_match is not None:
+		if second_match.group(2) != first:
+			return second_match.group(2) + dots
 	return "--"
 
 
@@ -66,13 +70,13 @@ def sense_list(sense_string):
 	
 	
 def retrieve_related(word):
-	sql_command = 'SELECT * FROM entries WHERE entries.etym REGEXP ?'
-	parameters = [r'.*cf\. #' + word + '#.*']
+	sql_command = 'SELECT * FROM entries WHERE entries.etym LIKE ?'
+	parameters = ['%' + word + '%']
 	sql_command += " ORDER BY ascii"
 		
 	con = lite.connect('alpha_kyima_rc1.db')
 
-	con.create_function("REGEXP", 2, lambda expr, item : re.search(expr.lower(), item.lower()) is not None)
+	con.create_function("REGEXP", 2, regexp)
 	
 	with con:
 		cur = con.cursor()
@@ -146,7 +150,7 @@ def retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, 
 		try:
 			re.compile(word)
 			op = 'REGEXP'
-		except:
+		except re.error:
 			op = '='
 
 		if dialect == 'any':
@@ -235,7 +239,7 @@ def retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, 
 
 	con = lite.connect('alpha_kyima_rc1.db')
 
-	con.create_function("REGEXP", 2, lambda expr, item : re.search(expr.lower(), item.lower(), flags=re.UNICODE) is not None)
+	con.create_function("REGEXP", 2, regexp)
 	with con:
 		cur = con.cursor()
 		cur.execute(sql_command, parameters)
@@ -395,7 +399,7 @@ if __name__ == "__main__":
 			# Check that this TLA ID exists
 			con = lite.connect('alpha_kyima_rc1.db')
 			with con:
-				con.create_function("REGEXP", 2, lambda expr, item: re.search(expr.lower(), item.lower()) is not None)
+				con.create_function("REGEXP", 2, regexp)
 				cur = con.cursor()
 				cur.execute("select xml_id from entries where Name REGEXP ?", (tla_search,))
 				rows = cur.fetchall()
@@ -406,13 +410,10 @@ if __name__ == "__main__":
 						tla_search = None
 					else:
 						tla_search = rows[0][0]
-				else:
-					tla_search = rows[0][0]
 
-	word = word
-	definition = definition
 	word_desc = """ for '<span style="font-family: antinoouRegular, sans-serif;">""" + word +"</span>'" if len(word)  > 0 else ""
 	dialect_desc = " in dialect " + dialect + " or unspecified" if dialect != "any" and len(dialect)  > 0 else ""
+	### Handle related entries if a Coptic word is searched
 	definition_desc = " definitions matching <i>" + definition + "</i> in language <i>"  + def_lang + "</i>" if len(definition)  > 0 else ""
 	pos_desc = " restricted to POS tag " + pos if pos != "any" else ""
 	search_desc = "You searched " + word_desc + dialect_desc + definition_desc + pos_desc

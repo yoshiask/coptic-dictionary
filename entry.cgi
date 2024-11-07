@@ -136,7 +136,7 @@ def process_orthstring(orthstring, orefstring, cursor, cs_pos=None):
 										<span><b>Top collocations in ANNIS: (5 word window)</b><br/><table class="colloc_tab">
 										<tr><th>&nbsp;</th><th>Word</th><th>Co-occurrences</th><th>Association (MI3)</th></tr>"""
 				for r, row in enumerate(colloc_data):
-					word, collocate, cooc, assoc = row
+					_, collocate, cooc, assoc = row
 					colloc_info += '<tr><td style="text-align:right">' + str(r + 1) + '.</td><td><a href="results.cgi?quick_search=' + \
 								   collocate + '">' + collocate + '</a></td><td style="text-align: center">' + str(
 						cooc) + '</td><td style="text-align: center">' + str("%.2f" % assoc) + "</td></tr>"
@@ -146,7 +146,6 @@ def process_orthstring(orthstring, orefstring, cursor, cs_pos=None):
 				orth_html += colloc_info
 
 			distinct_orth = strip_hyphens(distinct_orth)
-			thumb_html = ""
 			if has_network(distinct_orth, cs_pos):
 				network_thumb = True
 				network_link = "network.cgi?word=" + distinct_orth + "&pos=" + str(cs_pos) + '&tla=' + form_id
@@ -206,9 +205,7 @@ def process_sense(de, en, fr, tla_id=""):
 			ref_bibl = gloss_bibl(ref_bibl)
 
 			engstr = "(En) " if (de_parts is not None or fr_parts is not None) else ""
-			a = en_sense
-			sense_identifiers = str(sense_parts.group(1))
-			sense_num, sense_id = sense_identifiers.split("@")  # + en_sense + 1
+			sense_num, sense_id = sense_parts.group(1).split("@")  # + en_sense + 1
 			if len(en_senses) > 1:
 				counter = "&nbsp;" + sense_num + ".&nbsp;"
 			else:
