@@ -1,5 +1,6 @@
 import sqlite3 as lite
 import re
+from collections import defaultdict
 
 def get_con():
     return lite.connect('alpha_kyima_rc1.db')
@@ -143,3 +144,11 @@ def retrieve_network_data(word, pos):
         cur.execute("SELECT pos, word, phrase, freq FROM networks WHERE pos=? AND word=? ORDER BY freq DESC LIMIT 20", (pos, word))
         rows = cur.fetchall()
     return rows
+
+def retrieve_entry_data(tla_id):
+    con = get_con()
+    with con:
+        cur = con.cursor()
+        cur.execute("SELECT * FROM entries WHERE xml_id=?", (tla_id,))
+        entry = cur.fetchone()
+    return entry

@@ -1,13 +1,13 @@
+from collections import defaultdict
 import re
 from flask import Flask, request, render_template
 from html import escape
-from helper import separate_coptic, strip_hyphens
-from model import check_tla_exists, retrieve_related, retrieve_entries, retrieve_network_data
+from helper import separate_coptic, strip_hyphens, get_annis_query
+from model import check_tla_exists, retrieve_related, retrieve_entries, retrieve_network_data, retrieve_entry_data
 
 app = Flask(__name__)
 
 @app.route('/about', methods=['GET'])
-
 def about():
     return render_template('template.html', static="about")
 
@@ -15,6 +15,7 @@ def about():
 def help():
     return render_template('template.html', static="help")
 
+@app.route('/', methods=['GET'])
 @app.route('/search', methods=['GET'])
 def search():
     return render_template('template.html', static="search")
@@ -77,6 +78,40 @@ def network_thumb():
     tsv = "%%".join(output) + "\n"
 
     return render_template('network_thumb.html', tsv=tsv, word=word, tla=tla)
+
+@app.route('/entry', methods=['GET'])
+def entry():
+    tla_id = escape(request.args.get("tla", "")).replace("(", "").replace(")", "").replace("=", "").strip()
+    entry = retrieve_entry_data(tla_id)
+    if not entry:
+        return '<div class="content">No entry found for your query</div>'
+
+    orth_geo_dict = defaultdict(list)
+    orth = "NONE"
+    parts = entry[2].split('\n')
+    for orth_geo_string in parts[1:]:
+        orth_geo = re.match(r'^(.*)~(.?\^\^([A-Za-z0-9_]*))$', orth_geo_string)
+        if orth_geo is not None:
+            orth = orth_geo.group(1)
+            orth_geo_dict[orth].append(orth_geo.group(2))
+    orth_html = ""
+    for distinct_orth in orth_geo_dict:
+        geo_string = " ".join(orth_geo_dict[distinct_orth])
+        form_id = ""
+        if "^^" in geo_string:
+            geo_string, form_id = geo_string.split("^^", 1)
+        annis_query = get_annis_query(distinct_orth, entry[10], entry[3])
+        orth_html += '<tr><td class="orth_entry">' + distinct_orth + '</td><td class="dialect">' + \
+                     geo_string + '</td><td class="tla_orth_id">' + \
+                     form_id + '</td><td class="morphology">' + \
+                     entry[3] + '</td><td class="annis_link"><a href="' + annis_query + \
+                     '" target="_new"><img src="img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium"></a></td>'
+        if " " in entry[10]:
+            orth_html += '<td class="annis_link"><a href="' + annis_query + \
+                         '" target="_new"><img src="img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium"></a></td>'
+        orth_html += '</tr>'
+
+    return render_template('template.html', entry=entry, orth_html=orth_html)
 
 if __name__ == "__main__":
     app.run(debug=True)
