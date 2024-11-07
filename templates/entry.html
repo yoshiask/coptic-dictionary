@@ -1,6 +1,25 @@
 <div class="entry-content">
     <h2>{{ entry[2] }}</h2>
     <table>
-        {{ orth_html|safe }}
+        {% for orth_entry in orth_entries %}
+        <tr>
+            <td class="orth_entry">{{ orth_entry.distinct_orth }}</td>
+            <td class="dialect">{{ orth_entry.geo_string }}</td>
+            <td class="tla_orth_id">{{ orth_entry.form_id }}</td>
+            <td class="morphology">{{ orth_entry.morphology }}</td>
+            <td class="annis_link">
+                <a href="{{ orth_entry.annis_query }}" target="_new">
+                    <img src="img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium">
+                </a>
+            </td>
+            {% if orth_entry.has_space %}
+            <td class="annis_link">
+                <a href="{{ orth_entry.annis_query }}" target="_new">
+                    <img src="img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium">
+                </a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
     </table>
 </div>

@@ -94,24 +94,24 @@ def entry():
         if orth_geo is not None:
             orth = orth_geo.group(1)
             orth_geo_dict[orth].append(orth_geo.group(2))
-    orth_html = ""
+
+    orth_entries = []
     for distinct_orth in orth_geo_dict:
         geo_string = " ".join(orth_geo_dict[distinct_orth])
         form_id = ""
         if "^^" in geo_string:
             geo_string, form_id = geo_string.split("^^", 1)
         annis_query = get_annis_query(distinct_orth, entry[10], entry[3])
-        orth_html += '<tr><td class="orth_entry">' + distinct_orth + '</td><td class="dialect">' + \
-                     geo_string + '</td><td class="tla_orth_id">' + \
-                     form_id + '</td><td class="morphology">' + \
-                     entry[3] + '</td><td class="annis_link"><a href="' + annis_query + \
-                     '" target="_new"><img src="img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium"></a></td>'
-        if " " in entry[10]:
-            orth_html += '<td class="annis_link"><a href="' + annis_query + \
-                         '" target="_new"><img src="img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium"></a></td>'
-        orth_html += '</tr>'
+        orth_entries.append({
+            'distinct_orth': distinct_orth,
+            'geo_string': geo_string,
+            'form_id': form_id,
+            'morphology': entry[3],
+            'annis_query': annis_query,
+            'has_space': " " in entry[10]
+        })
 
-    return render_template('template.html', entry=entry, orth_html=orth_html)
+    return render_template('template.html', entry=entry, orth_entries=orth_entries)
 
 if __name__ == "__main__":
     app.run(debug=True)
