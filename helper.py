@@ -1,9 +1,8 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
-import io, os, re, platform, json, unicodedata
+import io, os, re, platform, unicodedata
 import __main__
-import unicodedata
 from base64 import urlsafe_b64encode
 import sqlite3 as lite
 
@@ -58,7 +57,7 @@ def separate_coptic(search_text):
 	coptic_words = []
 	non_coptic_words = []
 	for word in words:
-		coptic = ("COPTIC" in unicodedata.name(chr) for chr in str(word.decode("utf8")))
+		coptic = ("COPTIC" in unicodedata.name(chr) for chr in word)
 		if any(coptic):
 			coptic_words.append(word)
 		else:
@@ -75,11 +74,11 @@ def strip_hyphens(text):
 
 
 def get_annis_query(coptic, oref, cs_pos=None):
-	coptic = strip_hyphens(coptic).encode("utf8")
-	oref = strip_hyphens(oref).encode("utf8")
+	coptic = strip_hyphens(coptic)
+	oref = strip_hyphens(oref)
 
 	annis_base = "https://annis.copticscriptorium.org/annis/scriptorium#"
-	corpus_list = "_c=YmVzYS5sZXR0ZXJzLHNoZW5vdXRlLmEyMixsaWZlLmpvaG4ua2FseWJpdGVzLGpvaGFubmVzLmNhbm9ucyxwc2V1ZG8uYXRoYW5hc2l1cy5kaXNjb3Vyc2VzLHNoZW5vdXRlLmFicmFoYW0scHNldWRvLmJhc2lsLHNoZW5vdXRlLmRpcnQsc2FoaWRpYy5vdCxkb3JtaXRpb24uam9obixzaGVub3V0ZS5uaWdodCxwaXN0aXMuc29waGlhLGxpZmUucGhpYixwc2V1ZG8uZXBocmVtLGxpZmUub25ub3Bocml1cyxhcG9waHRoZWdtYXRhLnBhdHJ1bSxzaGVub3V0ZS5zZWVrcyxsaWZlLnBhdWwudGFtbWEscHNldWRvLnRpbW90aHkscHNldWRvLmNocnlzb3N0b20sbXlzdGVyaWVzLmpvaG4sc2FoaWRpYy5ydXRoLHBzZXVkby50aGVvcGhpbHVzLHNhaGlkaWNhLm1hcmssZG9jLnBhcHlyaSxwYWNob21pdXMuaW5zdHJ1Y3Rpb25zLHNoZW5vdXRlLmVhZ2VybmVzcyxsaWZlLmFwaG91LGxpZmUuZXVzdGF0aGl1cy50aGVvcGlzdGUsc2hlbm91dGUudW5rbm93bjVfMSxsaWZlLmN5cnVzLHByb2NsdXMuaG9taWxpZXMsam9obi5jb25zdGFudGlub3BsZSxtYWdpY2FsLnBhcHlyaSxwc2V1ZG8uY2VsZXN0aW51cyxzaGVub3V0ZS50aG9zZSxzYWhpZGljYS5udCxzYWhpZGljYS4xY29yaW50aGlhbnMsc2hlbm91dGUucHJpbmNlLHNoZW5vdXRlLmZveCxwc2V1ZG8uZmxhdmlhbnVzLGxpZmUubG9uZ2ludXMubHVjaXVzLGxpZmUucGlzZW50aXVzLG1hcnR5cmRvbS52aWN0b3Isc2hlbm91dGUudGh1bmRlcmVkLHNoZW5vdXRlLnBsYWNlLHNoZW5vdXRlLmNvbnNpZGVyaW5n"
+	corpus_list = "_c=YmVzYS5sZXR0ZXJzLHNoZW5vdXRlLmEyMixsaWZlLmpvaG4ua2FseWJpdGVzLGpvaGFubmVzLmNhbm9ucyxwc2V1ZG8uYXRoYW5hc2l1cy5kaXNjb3Vyc2VzLHNoZW5vdXRlLmFicmFoYW0scHNldWRvLmJhc2lsLHNoZW5vdXRlLmRpcnQsc2FoaWRpYy5vdCxkb3JtaXRpb24uam9obixzaGVub3V0ZS5uaWdodCxwaXN0aXMuc29waGlhLGxpZmUucGhpYixwc2V1ZG8uZXBocmVtLGxpZmUub25ub3Bocml1cyxhcG9waHRoZWdtYXRhLnBhdHJ1bSxzaGVub3V0ZS5zZWVrcyxsaWZlLnBhdWwudGFtbWEscHNldWRvLnRpbW90aHkscHNldWRvLmNocnlzb3N0b20sbXlzdGVyaWVzLmpvaG4sc2FoaWRpYy5ydXRoLHBzZXVkby50aGVvcGhpbHVzLHNhaGlkaWNhLm1hcmssZG9jLnBhcHlyaSxwYWNob21pdXMuaW5zdHJ1Y3Rpb25zLHNoZW5vdXRlLmVhZ2VybmVzcyxsaWZlLmFwaG91LGxpZmUuZXVzdGF0aGl1cy50aGVvcGlzdGUsc2hlbm91dGUudW5rbm93bjVfMSxsaWZlLmN5cnVzLHByb2NsdXMuaG9taWxpZXMsam9obi5jb25zdGFudGlub3BsZSxtYWdpY2FsLnBhcHlyaSxwc2V1ZG8uY2VsZXN0aW51cyxzaGVub3V0ZS50aG9zZSxzYWhpZGljYS4xY29yaW50aGlhbnMsc2hlbm91dGUucHJpbmNlLHNoZW5vdXRlLmZveCxwc2V1ZG8uZmxhdmlhbnVzLGxpZmUubG9uZ2ludXMubHVjaXVzLGxpZmUucGlzZW50aXVzLG1hcnR5cmRvbS52aWN0b3Isc2hlbm91dGUudGh1bmRlcmVkLHNoZW5vdXRlLnBsYWNlLHNoZW5vdXRlLmNvbnNpZGVyaW5n"
 	segmentation = "_bt=bm9ybV9ncm91cA"  # Norm segmentation
 	if " " in coptic:
 		coptic = coptic.replace(" ","")
@@ -105,7 +104,7 @@ def get_annis_query(coptic, oref, cs_pos=None):
 def get_annis_entity_query(coptic, entity_type):
 	if " " in coptic:
 		coptic = coptic.replace(" ","")
-	coptic = strip_hyphens(coptic).encode("utf8")
+	coptic = strip_hyphens(coptic)
 
 	annis_base = "https://annis.copticscriptorium.org/annis/scriptorium#"
 	corpus_list = "_c=Y29wdGljLnRyZWViYW5r"  # Currently just treebank
@@ -117,7 +116,7 @@ def get_annis_entity_query(coptic, entity_type):
 
 
 def lemma_exists(word):
-	lemma_count = len(generic_query("select lemmas.Word from lemmas where lemmas.Word = ? and not lemmas.lemma = lemmas.word;",(word.decode("utf8"),)))>0
+	lemma_count = len(generic_query("select lemmas.Word from lemmas where lemmas.Word = ? and not lemmas.lemma = lemmas.word;",(word,)))>0
 	if lemma_count > 0:
 		lemma = get_lemmas_for_word(word)[0][0]
 		regex_word = '.*\n' + lemma + '~.*'
@@ -129,17 +128,12 @@ def lemma_exists(word):
 
 
 def get_lemmas_for_word(word):
-	return generic_query("select Lemma, POS from lemmas where Word = ?;",(word.decode("utf8"),))
+	return generic_query("select Lemma, POS from lemmas where Word = ?;",(word,))
 
 
 def generic_query(sql,params):
 
-	if platform.system() == 'Linux':
-		con = lite.connect('alpha_kyima_rc1.db')
-	elif platform.system() == "Windows":
-		con = lite.connect('coptic-dictionary' + os.sep + 'alpha_kyima_rc1.db')
-	else:
-		con = lite.connect('alpha_kyima_rc1.db')
+	con = lite.connect('alpha_kyima_rc1.db')
 
 	with con:
 		con.create_function("REGEXP", 2, lambda expr, item: re.search(expr.lower(), item.lower()) is not None)
@@ -159,7 +153,7 @@ def link_greek(etym):
 		return etym
 	else:
 		greek = m.group(1).strip()
-		greek= greek.decode("utf8")
+		greek = greek
 
 	try:
 		# Convert polytonic Greek to beta-code using perseids-tools/beta-code-py conversion table
@@ -178,7 +172,7 @@ def link_greek(etym):
 			link = ' <a title="Look up in Perseus" href="http://www.perseus.tufts.edu/hopper/resolveform?type=exact&lookup='+mapped+'&lang=greek">'+greek + '&nbsp;<img src="img/perseus.png" style="border: 1px solid black;"/></a> '
 			linked = re.sub(r'(cf\. Gr\.[^<>]*</span>)[^<>]+(<i>)',r'\1'+link+r'\2',etym)
 
-			return linked.encode("utf8")
+			return linked
 	except:
 		# Beta code conversion failed, return unaltered string
 		return etym

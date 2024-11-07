@@ -1,6 +1,7 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from html import escape
 import sqlite3 as lite
 import re
 import cgi, cgitb
@@ -82,4 +83,4 @@ if __name__ == "__main__":
 	"""
 	wrapped = wrapped.replace("<head>\n","<head>"+kbd_include)
 	print(wrapped)
-	
+

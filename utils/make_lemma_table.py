@@ -476,7 +476,7 @@ def main(use_cache=False, url="https://annis.copticscriptorium.org/", lemma_list
                     continue
             if row[0] == row[1]:
                 continue
-            if row[1].encode("utf8") in stop_list:
+            if row[1] in stop_list:
                 continue
             new_row = []
             for field in row[:-2]:

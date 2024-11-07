@@ -262,8 +262,6 @@ def related(related_entries):
 
 
 def get_con():
-	if platform.system() == 'Windows':
-		return lite.connect('utils' + os.sep + 'alpha_kyima_rc1.db')
 	return lite.connect('alpha_kyima_rc1.db')
 
 
@@ -390,7 +388,7 @@ if __name__ == "__main__":
 
 	form = cgi.FieldStorage()
 
-	tla_id = cgi.escape(form.getvalue("tla", "")).replace("(","").replace(")","").replace("=","")
+	tla_id = escape(form.getvalue("tla", "")).replace("(","").replace(")","").replace("=","")
 
 	if len(tla_id) > 0:
 		# Get corresponding entry_id and super_id
@@ -404,11 +402,11 @@ if __name__ == "__main__":
 				entry_id = result[0]
 				super_id = result[1]
 			else:
-				entry_id = cgi.escape(form.getvalue("entry", "")).replace("(","").replace(")","").replace("=","")
-				super_id = cgi.escape(form.getvalue("super", "")).replace("(","").replace(")","").replace("=","")
+				entry_id = escape(form.getvalue("entry", "")).replace("(","").replace(")","").replace("=","")
+				super_id = escape(form.getvalue("super", "")).replace("(","").replace(")","").replace("=","")
 	else:
-		entry_id = cgi.escape(form.getvalue("entry", "")).replace("(","").replace(")","").replace("=","")
-		super_id = cgi.escape(form.getvalue("super", "")).replace("(","").replace(")","").replace("=","")
+		entry_id = escape(form.getvalue("entry", "")).replace("(","").replace(")","").replace("=","")
+		super_id = escape(form.getvalue("super", "")).replace("(","").replace(")","").replace("=","")
 	#entry_id = 6033
 	#super_id = 2342
 
@@ -445,7 +443,7 @@ if __name__ == "__main__":
 		# orth (and morph) info
 		cs_pos = this_entry[3]
 		entry_page += process_orthstring(this_entry[2], this_entry[10], cur, cs_pos=cs_pos) #this_entry[10] -> oRef column
-		tag = this_entry[3].encode("utf8")
+		tag = this_entry[3]
 		if tag == "NULL" or tag == "NONE":
 			tag = "--"
 		entry_page += '<div class="tag">\n\tScriptorium tag: ' + tag + "\n</div>\n"
@@ -470,7 +468,7 @@ if __name__ == "__main__":
 		entry_page += '</div>'
 
 		# etym info
-		entry_page += process_etym(this_entry[7].encode("utf8"))
+		entry_page += process_etym(this_entry[7])
 
 		# examples
 		entry_page += get_examples(re.sub(r'<[^<>]+>','',lemma), cs_pos, tla_id, this_entry[10])
@@ -486,12 +484,12 @@ if __name__ == "__main__":
 		xml_id_string = '<span class="tla_no_header">TLA lemma no. ' + entry_xml_id +"</span><br/>" + lemma if entry_xml_id != "" else ""
 		citation_id_string = 'TLA lemma no. ' + entry_xml_id +" ("+lemma+")" if entry_xml_id != "" else ""
 
-		entry_page += '<div id="citation_info_box">Please cite as: '+citation_id_string.encode("utf8")+', in: <i>Coptic Dictionary Online</i>, ed. by the Koptische/Coptic Electronic Language and Literature International Alliance (KELLIA), https://coptic-dictionary.org/entry.cgi?tla='+entry_xml_id.encode("utf8")+' (accessed yyyy-mm-dd).</div>'
+		entry_page += '<div id="citation_info_box">Please cite as: '+citation_id_string+', in: <i>Coptic Dictionary Online</i>, ed. by the Koptische/Coptic Electronic Language and Literature International Alliance (KELLIA), https://coptic-dictionary.org/entry.cgi?tla='+entry_xml_id+' (accessed yyyy-mm-dd).</div>'
 
 	wrapped = wrap(entry_page)
 	
 	# adding TLA lemma no. to title and citation info
-	wrapped = re.sub(r"(Entry detail[^<>]*</h2>)",xml_id_string.encode("utf8") +"</h2>\n",wrapped)
+	wrapped = re.sub(r"(Entry detail[^<>]*</h2>)",xml_id_string +"</h2>\n",wrapped)
 	wrapped = wrapped.replace('<link rel="canonical" href="https://coptic-dictionary.org/" />','<link rel="canonical" href="https://coptic-dictionary.org/entry.cgi" />')
 
 	# add Greek form disclaimer if needed:
