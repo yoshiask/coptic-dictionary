@@ -29709,12 +29709,12 @@
         <entry xml:id="C783">
           <form type="lemma" xml:id="CF2894"><usg type="geo">S</usg><orth>ⲏⲓ</orth></form>
           <form xml:id="CF2895"><usg type="geo">S</usg><orth>ⲏⲓ</orth></form>
-          <form xml:id="CF28950"><usg type="geo">B</usg><orth>ⲏⲓ</orth></form>
-          <form xml:id="CF28951"><usg type="geo">A</usg><orth>ⲏⲓ</orth></form>
-          <form xml:id="CF28952"><usg type="geo">F</usg><orth>ⲏⲓ</orth></form>
-          <form xml:id="CF28953"><usg type="geo">S</usg><orth>ⲏⲉⲓ</orth></form>
-          <form xml:id="CF28954"><usg type="geo">A</usg><orth>ⲏⲉⲓ</orth></form>
-          <form xml:id="CF28955"><usg type="geo">L</usg><orth>ⲏⲉⲓ</orth></form>
+          <form xml:id="CF289500"><usg type="geo">B</usg><orth>ⲏⲓ</orth></form>
+          <form xml:id="CF289501"><usg type="geo">A</usg><orth>ⲏⲓ</orth></form>
+          <form xml:id="CF289502"><usg type="geo">F</usg><orth>ⲏⲓ</orth></form>
+          <form xml:id="CF289503"><usg type="geo">S</usg><orth>ⲏⲉⲓ</orth></form>
+          <form xml:id="CF289504"><usg type="geo">A</usg><orth>ⲏⲉⲓ</orth></form>
+          <form xml:id="CF289505"><usg type="geo">L</usg><orth>ⲏⲉⲓ</orth></form>
           <gramGrp>
             <pos>Subst.</pos>
             <gen>m.</gen>
