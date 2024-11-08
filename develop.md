@@ -6,5 +6,6 @@
 4. Port to Flask ? Though cutely we could keep CGI.
 5. Probably stop using regexp to parse XML.
 6. Modernize libraries etc.
+7. We should very probably use json columns rather than weird separators and regexps.
 
 python3 app.py

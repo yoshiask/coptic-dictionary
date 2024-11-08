@@ -1,6 +1,13 @@
 <div class="entry-content">
-    <h2>{{ entry[2] }}</h2>
-    <table>
+    <h2>{{ entry['Name'] }}</h2>
+    <table id="orths">
+        <tr class="orth_table_header">
+            <th>Form</th>
+            <th>Dial.</th>
+            <th class="tla_orth_id">Form ID</th>
+            <th class="tla_orth_id">POS</th>
+            <th colspan="4" class="annis_link">Attestation</th>
+        </tr>
         {% for orth_entry in orth_entries %}
         <tr>
             <td class="orth_entry">{{ orth_entry.distinct_orth }}</td>
@@ -9,16 +16,19 @@
             <td class="morphology">{{ orth_entry.morphology }}</td>
             <td class="annis_link">
                 <a href="{{ orth_entry.annis_query }}" target="_new">
-                    <img src="static/img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium">
+                    <img src="{{ url_for('static', filename='img/scriptorium.png') }}" class="scriptorium_logo" title="Search in Coptic Scriptorium">
                 </a>
             </td>
-            {% if orth_entry.has_space %}
-            <td class="annis_link">
-                <a href="{{ orth_entry.annis_query }}" target="_new">
-                    <img src="static/img/scriptorium.png" class="scriptorium_logo" title="Search in Coptic Scriptorium">
-                </a>
-            </td>
-            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Collocates</h3>
+    <table id="collocates">
+        {% for collocate in collocates %}
+        <tr>
+            <td class="collocate">{{ collocate[1] }}</td>
+            <td class="freq">{{ collocate[2] }}</td>
+            <td class="assoc">{{ collocate[3] }}</td>
         </tr>
         {% endfor %}
     </table>

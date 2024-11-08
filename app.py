@@ -3,7 +3,7 @@ import re
 from flask import Flask, request, render_template
 from html import escape
 from helper import separate_coptic, strip_hyphens, get_annis_query
-from model import check_tla_exists, retrieve_related, retrieve_entries, retrieve_network_data, retrieve_entry_data
+from model import check_tla_exists, retrieve_related, retrieve_entries, retrieve_network_data, retrieve_entry_data, retrieve_collocates, first_orth, second_orth, parse_entry, get_lemmas_for_word
 
 app = Flask(__name__)
 
@@ -58,15 +58,16 @@ def results():
 
     entries = retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, params=params, tla_search=tla_search)
     related_entries = retrieve_related(word)
+    lemmas = get_lemmas_for_word(word)
 
     if entries:
-        entry_xml_id = entries[0][0]
-        lemma = entries[0][1]
+        entry_xml_id = entries[0]['xml_id']
+        lemma = entries[0]['Name']
     else:
         entry_xml_id = ""
         lemma = ""
 
-    return render_template('template.html', entries=entries, related_entries=related_entries, params=params, entry_xml_id=entry_xml_id, lemma=lemma)
+    return render_template('template.html', entries=entries, related_entries=related_entries, params=params, entry_xml_id=entry_xml_id, lemma=lemma, lemmas=lemmas)
 
 @app.route('/network_thumb', methods=['GET'])
 def network_thumb():
@@ -93,32 +94,10 @@ def entry():
     if not entry:
         return '<div class="content">No entry found for your query</div>'
 
-    orth_geo_dict = defaultdict(list)
-    orth = "NONE"
-    parts = entry[2].split('\n')
-    for orth_geo_string in parts[1:]:
-        orth_geo = re.match(r'^(.*)~(.?\^\^([A-Za-z0-9_]*))$', orth_geo_string)
-        if orth_geo is not None:
-            orth = orth_geo.group(1)
-            orth_geo_dict[orth].append(orth_geo.group(2))
+    orth_entries = parse_entry(entry)
+    collocates = retrieve_collocates(entry['Name'])
 
-    orth_entries = []
-    for distinct_orth in orth_geo_dict:
-        geo_string = " ".join(orth_geo_dict[distinct_orth])
-        form_id = ""
-        if "^^" in geo_string:
-            geo_string, form_id = geo_string.split("^^", 1)
-        annis_query = get_annis_query(distinct_orth, entry[10], entry[3])
-        orth_entries.append({
-            'distinct_orth': distinct_orth,
-            'geo_string': geo_string,
-            'form_id': form_id,
-            'morphology': entry[3],
-            'annis_query': annis_query,
-            'has_space': " " in entry[10]
-        })
-
-    return render_template('template.html', entry=entry, orth_entries=orth_entries)
+    return render_template('template.html', entry=entry, orth_entries=orth_entries, collocates=collocates)
 
 if __name__ == "__main__":
     app.run(debug=True)
