@@ -30,7 +30,7 @@ def retrieve_related(word):
 def retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, search_desc="", params=None, tla_search=None):
     if params is None:
         params = {}
-    sql_command = 'SELECT * FROM entries WHERE '
+    sql_command = 'SELECT xml_id, Name, * FROM entries WHERE '
     constraints = []
     parameters = []
 
@@ -125,7 +125,7 @@ def retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, 
     if constraints:
         sql_command += " AND ".join(constraints)
     else:
-        sql_command = 'SELECT * FROM entries ORDER BY Ascii'
+        sql_command = 'SELECT xml_id, Name, * FROM entries ORDER BY Ascii'
 
     print(f"SQL Command: {sql_command}")
     print(f"Parameters: {parameters}")

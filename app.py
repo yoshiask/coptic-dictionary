@@ -59,7 +59,14 @@ def results():
     entries = retrieve_entries(word, dialect, pos, definition, def_search_type, def_lang, params=params, tla_search=tla_search)
     related_entries = retrieve_related(word)
 
-    return render_template('template.html', entries=entries, related_entries=related_entries, params=params)
+    if entries:
+        entry_xml_id = entries[0][0]
+        lemma = entries[0][1]
+    else:
+        entry_xml_id = ""
+        lemma = ""
+
+    return render_template('template.html', entries=entries, related_entries=related_entries, params=params, entry_xml_id=entry_xml_id, lemma=lemma)
 
 @app.route('/network_thumb', methods=['GET'])
 def network_thumb():
