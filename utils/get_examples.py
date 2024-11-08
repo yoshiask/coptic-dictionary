@@ -436,7 +436,7 @@ def main():
     # Print some examples as a sanity check
     ex = n_best("ⲙⲣⲱ",lemma2citations, db_entries, forbidden_urns)
     for tla_id, cit in ex:
-        print(tla_id + "\n" + str(cit))
+        print((tla_id + "\n" + str(cit)))
 
     update_db(lemma2citations, db_entries, forbidden_urns)
 

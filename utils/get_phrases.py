@@ -56,7 +56,7 @@ def conll2phrases(conllu):
                     else:
                         a=3  # This should never happen
 
-        for tid, tok in sent_toks.items():
+        for tid, tok in list(sent_toks.items()):
             if tok.pos in white_list:
                 tok.span = sorted(list(get_descendents(tok.id,children,set([])))+[(int(tid),0)])
                 phrase = []

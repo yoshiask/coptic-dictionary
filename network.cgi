@@ -1,12 +1,13 @@
-#!/usr/bin/python2
+#!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+from html import escape
 import cgi, cgitb, platform, os
 import sqlite3 as lite
 from helper import wrap
 cgitb.enable()
 
-print "Content-type: text/html\n"
+print("Content-type: text/html\n")
 
 page = """
 <script src="js/jquery-1.7.2.min.js"></script>
@@ -33,17 +34,14 @@ as an assistive tool only.</p>
 if __name__ == "__main__":
     form = cgi.FieldStorage()
     params = {}
-    word = cgi.escape(form.getvalue("word", "")).replace("(", "").replace(")", "").replace("=", "").replace("<","").strip()
-    pos = cgi.escape(form.getvalue("pos", "--")).replace("(", "").replace(")", "").replace("=", "").strip()
-    tla = cgi.escape(form.getvalue("tla", "--")).replace("(", "").replace(")", "").replace("=", "").strip()
-    word = word.decode("utf8")
+    word = escape(form.getvalue("word", "")).replace("(", "").replace(")", "").replace("=", "").replace("<","").strip()
+    pos = escape(form.getvalue("pos", "--")).replace("(", "").replace(")", "").replace("=", "").strip()
+    tla = escape(form.getvalue("tla", "--")).replace("(", "").replace(")", "").replace("=", "").strip()
+    
     if pos not in ["N","V","VSTAT","VIMP","PREP"] or len(word.strip())==0:
         rows = []
         page = """<div class="content">No network data found for your query</div>"""
-    if platform.system() == 'Linux':
-        con = lite.connect('alpha_kyima_rc1.db')
-    else:
-        con = lite.connect('utils' + os.sep + 'alpha_kyima_rc1.db')
+    con = lite.connect('alpha_kyima_rc1.db')
     with con:
         cur = con.cursor()
         cur.execute("select pos, word, phrase, freq from networks where pos=? and word=? order by freq DESC limit 20", (pos,word))
@@ -70,6 +68,6 @@ if __name__ == "__main__":
     else:
         wrapped = wrapped.replace("TLA form no. **TLA**:","")
 
-    print wrapped.encode("utf8")
+    print(wrapped)
 
 

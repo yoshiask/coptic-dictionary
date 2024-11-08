@@ -44,12 +44,12 @@ def compile_colloc_table():
             for zipped_file in zipped_files:
                 lines = io.TextIOWrapper(zip.open(zipped_file), encoding="utf8").readlines()
                 collocs = extract_collocs(lines,unit="norm",window=5)
-                for tup, f in collocs.items():
+                for tup, f in list(collocs.items()):
                     all_collocs[tup] += f
         else:
             lines = io.open(file_, encoding="utf8").readlines()
             collocs = extract_collocs(lines, unit="norm", window=5)
-            for tup, f in collocs.items():
+            for tup, f in list(collocs.items()):
                 all_collocs[tup] += f
 
     # Get left neighbors:
@@ -58,7 +58,7 @@ def compile_colloc_table():
         all_collocs[(w2,w1)] += all_collocs[(w1,w2)]
 
     output = []
-    for tup, freq in all_collocs.items():
+    for tup, freq in list(all_collocs.items()):
         output.append("\t".join([tup[0],tup[1],str(freq)]))
 
     return "\n".join(output) + "\n"

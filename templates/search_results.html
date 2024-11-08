@@ -1,0 +1,51 @@
+<div class="bs-docs-section">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h2><span class="tla_no_header">TLA lemma no. {{ entry_xml_id }}</span><br><span style="font-family: antinoouRegular, sans-serif; font-size: larger">{{ lemma }}</span></h2>
+            </div>
+            <div class="bs-component">
+                <table id="results" class="entrylist">
+                    <tr class="orth_table_header">
+                        <th>Form</th>
+                        <th>Dial.</th>
+                        <th class="tla_orth_id">Form ID</th>
+                        <th class="tla_orth_id">POS</th>
+                        <th colspan="4" class="annis_link">Attestation</th>
+                    </tr>
+                    {% for entry in entries %}
+                    <tr>
+                        <td class="orth_entry">{{ entry.distinct_orth }}</td>
+                        <td class="dialect">{{ entry.geo_string }}</td>
+                        <td class="tla_orth_id">{{ entry.form_id }}</td>
+                        <td class="morphology">{{ entry.morphology }}</td>
+                        <td class="annis_link">
+                            <a href="{{ url_for('entry', tla=entry.xml_id) }}" target="_new">
+                                <img src="{{ url_for('static', filename='img/scriptorium.png') }}" class="scriptorium_logo" title="Search in Coptic Scriptorium">
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="page-header">
+                <h2>Related Entries</h2>
+            </div>
+            <div class="bs-component">
+                <table id="related" class="entrylist">
+                    {% for related_entry in related_entries %}
+                    <tr>
+                        <td class="related_orth"><a href="{{ url_for('entry', tla=related_entry.xml_id) }}">{{ related_entry.Name }}</a></td>
+                        <td class="second_orth_cell">{{ related_entry.geo_string }}</td>
+                        <td class="related_sense">{{ related_entry.POS }}</td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
