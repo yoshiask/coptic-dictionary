@@ -1,0 +1,3 @@
+# Exclude Python virtual environment directories
+venv/
+*/venv/
