@@ -39284,6 +39284,7 @@
         <entry xml:id="C1302">
           <form type="lemma" xml:id="CF4009"><usg type="geo">S</usg><orth>ⲕⲣⲱⲙ</orth></form>
           <form xml:id="CF4010"><usg type="geo">S</usg><orth>ⲕⲣⲱⲙ</orth></form>
+          <form xml:id="CF40100"><usg type="geo">B</usg><orth>ⲭⲣⲱⲙ</orth></form>
           <gramGrp>
             <pos>Subst.</pos>
             <gen>m.</gen>
@@ -39298,6 +39299,7 @@
         <entry xml:id="C1303">
           <form type="lemma" xml:id="CF4011"><usg type="geo">S</usg><orth>ⲕⲣⲱⲙ</orth></form>
           <form xml:id="CF4012"><usg type="geo">S</usg><orth>ⲕⲣⲱⲙ</orth></form>
+          <form xml:id="CF40120"><usg type="geo">B</usg><orth>ⲭⲣⲱⲙ</orth></form>
           <gramGrp>
             <pos>Adj.</pos>
           </gramGrp>
@@ -122900,6 +122902,7 @@
         <entry xml:id="C5840">
           <form type="lemma" xml:id="CF13676"><usg type="geo">S</usg><orth>ϣⲉⲗⲉⲉⲧ</orth></form>
           <form xml:id="CF13677"><usg type="geo">S</usg><orth>ϣⲉⲗⲉⲉⲧ</orth></form>
+          <form xml:id="CF136770"><usg type="geo">B</usg><orth>ϣⲉⲗⲉⲧ</orth></form>
           <gramGrp>
             <pos>Subst.</pos>
             <gen>f.</gen>
@@ -122920,6 +122923,7 @@
         <entry type="compound" xml:id="C5841">
           <form type="lemma" xml:id="CF13678"><usg type="geo">S</usg><orth>ⲙⲁ ⲛϣⲉⲗⲉⲉⲧ</orth></form>
           <form xml:id="CF13679"><usg type="geo">S</usg><orth>ⲙⲁ ⲛϣⲉⲗⲉⲉⲧ</orth></form>
+          <form xml:id="CF136790"><usg type="geo">B</usg><orth>ⲙⲁⲛϣⲉⲗⲉⲧ</orth></form>
           <gramGrp>
             <pos>Subst.</pos>
             <gen>m.</gen>
@@ -237774,6 +237778,10 @@
                <orth>ⲛⲩⲙⲫⲓⲟⲥ</orth>
                <usg type="geo">S</usg>
             </form>
+            <form xml:id="CF257210">
+               <orth>ⲛⲩⲙⲫⲓⲟⲥ</orth>
+               <usg type="geo">B</usg>
+            </form>
             <gramGrp>
                <pos>Subst.</pos>
             </gramGrp>
@@ -284376,6 +284384,10 @@
                <orth>ⲭⲣⲓⲥⲧⲟⲥ</orth>
                <usg type="geo">S</usg>
             </form>
+            <form xml:id="CF301520">
+               <orth>ⲭⲣⲓⲥⲧⲟⲥ</orth>
+               <usg type="geo">B</usg>
+            </form>
             <form xml:id="CF30153">
                <orth>ⲭⲣⲥ</orth>
                <usg type="geo">S</usg>
@@ -284458,6 +284470,8 @@
             </form>
             <gramGrp>
                <pos>Subst.</pos>
+               <gen>m.</gen>
+               <number>sg.</number>
             </gramGrp>
             <etym>
                <ref type="greek_lemma::grl_ID">2656</ref>
