@@ -59859,6 +59859,13 @@
           <form type="lemma" xml:id="CF6465"><usg type="geo">S</usg><orth>ⲛⲁ</orth></form>
           <form xml:id="CF6466"><usg type="geo">S</usg><orth>ⲛⲁ</orth></form>
           <form xml:id="CF64660"><usg type="geo">B</usg><orth>ⲛⲁⲓ</orth></form>
+          <form xml:id="CF64661"><usg type="geo">S</usg><orth>ⲛⲁⲁ</orth></form>
+          <form xml:id="CF64662"><usg type="geo">S</usg><orth>ⲛⲁⲉ</orth></form>
+          <form xml:id="CF64663"><usg type="geo">S</usg><orth>ⲛⲁⲉⲓⲏ</orth></form>
+          <form xml:id="CF64664"><usg type="geo">L</usg><orth>ⲛⲁⲉ</orth></form>
+          <form xml:id="CF64665"><usg type="geo">A</usg><orth>ⲛⲁⲉ</orth></form>
+          <form xml:id="CF64666"><usg type="geo">F</usg><orth>ⲛⲉⲓ</orth></form>
+          <form xml:id="CF64667"><usg type="geo">F</usg><orth>ⲛⲉⲉⲓ</orth></form>
           <gramGrp>
             <pos>Vb.</pos>
           </gramGrp>
@@ -59872,6 +59879,7 @@
         <entry type="hom" xml:id="C2357">
           <form type="lemma" xml:id="CF6467"><usg type="geo">S</usg><orth>ⲛⲁ</orth></form>
           <form xml:id="CF6468"><usg type="geo">S</usg><orth>ⲛⲁ</orth></form>
+          <form xml:id="CF64680"><usg type="geo">B</usg><orth>ⲛⲁⲒ</orth></form>
           <gramGrp>
             <pos>Subst.</pos>
             <gen>m.</gen>
@@ -59886,6 +59894,8 @@
         <entry type="compound" xml:id="C2358">
           <form type="lemma" xml:id="CF6469"><usg type="geo">S</usg><orth>ⲣⲡⲛⲁ</orth><oRef>ⲣ ⲡ ⲛⲁ</oRef></form>
           <form xml:id="CF6470"><usg type="geo">S</usg><orth>ⲣⲡⲛⲁ</orth><oRef>ⲣ ⲡ ⲛⲁ</oRef></form>
+          <form xml:id="CF64700"><usg type="geo">B</usg><orth>ⲉⲣⲡⲓⲛⲁⲓ</orth><oRef>ⲉⲣ ⲡⲓ ⲛⲁⲓ</oRef></form>
+          <form xml:id="CF64701"><usg type="geo">B</usg><orth>ⲉⲣⲟⲩⲛⲁⲓ</orth><oRef>ⲉⲣ ⲟⲩ ⲛⲁⲓ</oRef></form>
           <gramGrp>
             <pos>Vb.</pos>
             <subc>Kompositverb</subc>
@@ -59903,6 +59913,7 @@
         <entry type="compound" xml:id="C2359">
           <form type="lemma" xml:id="CF6471"><usg type="geo">S</usg><orth>ϣⲡⲛⲁ</orth></form>
           <form xml:id="CF6472"><usg type="geo">S</usg><orth>ϣⲡⲛⲁ</orth></form>
+          <form xml:id="CF64720"><usg type="geo">B</usg><orth>ϣⲉⲡⲛⲁⲓ</orth></form>
           <gramGrp>
             <pos>Vb.</pos>
             <subc>Kompositverb</subc>
@@ -59920,6 +59931,8 @@
         <entry type="compound" xml:id="C2360">
           <form type="lemma" xml:id="CF6473"><usg type="geo">S</usg><orth>ⲁⲧⲛⲁ</orth></form>
           <form xml:id="CF6474"><usg type="geo">S</usg><orth>ⲁⲧⲛⲁ</orth></form>
+          <form xml:id="CF64740"><usg type="geo">B</usg><orth>ⲁⲧⲛⲁⲓ</orth></form>
+          <form xml:id="CF64741"><usg type="geo">B</usg><orth>ⲁⲑⲛⲁⲓ</orth></form>
           <gramGrp>
             <pos>Adj.</pos>
           </gramGrp>
